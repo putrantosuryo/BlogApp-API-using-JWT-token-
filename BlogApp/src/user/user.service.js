@@ -6,13 +6,11 @@ const registerUser = async (fullname,username,password) => {
     return await userRepo.registerUser(fullname,username,hashPassword);
 }
 
-const loginUser = async (username,password) => {
-    return await userRepo.loginUser(username,password);
-}
+
 
 const userService = {
     registerUser,
-    loginUser
+    
 }
 
 module.exports = userService;

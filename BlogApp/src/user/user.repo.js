@@ -9,22 +9,10 @@ const registerUser = async (fullname,username,password) => {
     });
 };
 
-//Login
-const loginUser = async (username,password) => {
-    return await User.findOne({
-        where: {
-            // [Op.and]: [
-            //     {username},
-            //     {password}
-            // ]
-            username
-        }
-    });
-}
+
 
 const userRepo = {
-    registerUser,
-    loginUser
+    registerUser
 };
 
 module.exports=userRepo;
