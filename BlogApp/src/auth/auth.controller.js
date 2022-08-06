@@ -16,11 +16,11 @@ const loginUser = async (req,res) => {
         process.env.JWT_SECRET_TOKEN,
         {expiresIn :"1d"}
         );
-        res.json({"status" : 'login berhasil',accessToken: token});
+        res.json({"status" : 'login berhasil',accessToken: token, username : user.username});
     }else{
         res.send("Login Gagal");
     }
-}
+};
 
 const authController = {
     loginUser
