@@ -11,18 +11,24 @@ const createPost = async ({title,body,image,user_id}) => {
 };
 
 //Edit 
-const editPost = async ({title,body,image,post_id}) => {
+const editPost = async ({title,body,image,post_id,user_id}) => {
+    console.log("post: "+post_id +" user: "+user_id)
     return await Post.update({
         title,
         body,
         image
     },
     {
-        where: {       
-                 id : post_id 
-         }
-    });
-};
+        where: {
+            [Op.or]: 
+              {id:  post_id ,
+              user_id: user_id }
+            ,
+          },
+          returning: true,
+        }
+      );
+    };
 
 //FindAll
 const getAll = async (q) =>{

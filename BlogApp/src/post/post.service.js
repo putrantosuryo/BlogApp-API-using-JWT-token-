@@ -4,8 +4,8 @@ const createPost = async ({title,body,image,user_id}) => {
     return await postRepo.createPost({title,body,image,user_id});
 };
 
-const editPost = async ({title,body,image,post_id}) => {
-    return await postRepo.editPost({title,body,image,post_id});
+const editPost = async ({title,body,image,post_id,user_id}) => {
+    return await postRepo.editPost({title,body,image,post_id,user_id});
 }
 
 const getAll = async (q) => {

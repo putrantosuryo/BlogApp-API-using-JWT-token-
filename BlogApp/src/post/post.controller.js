@@ -23,22 +23,25 @@ const editPost = async (req,res) => {
     const {title,body,image} = req.body;
     const {post_id} = req.params;
     const authUser = req.auth;
+    const user_id = authUser.id
+    console.log(authUser.id)
     const post = {
         title,
         body,
         image,
-        post_id
-        
+        post_id,
+        user_id
     };
     try {
       const checkPost = await postService.getOne(post_id);
     
-      if(checkPost.user_id == authUser.id){
+    //   if(checkPost.user_id == authUser.id){
         const editPost = await postService.editPost(post);
-        res.send("Update Success");  
-      }else{
-        res.send("Failed Authorization"); 
-      }
+        return res.send(editPost);
+    //     res.send("Update Success");  
+    //   }else{
+    //     res.send("Failed Authorization"); 
+    //   }
      
     } catch (error) {
         res.json(error)
