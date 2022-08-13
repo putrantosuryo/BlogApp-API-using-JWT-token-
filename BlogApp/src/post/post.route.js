@@ -137,11 +137,11 @@ postRouter.put("/blogApp.com/editPost/:post_id",postValidation,validate,tokenVer
  *          type: string
  *        description : to get spesific post with title
  *      - in: query
- *        name: limit
+ *        name: order
  *        required: false
  *        schema:
- *          type: integer
- *        description : number for pagination
+ *          type: string
+ *        description : ordering Query can be 'ASC' or 'DESC'
  *    description: API to get all post item
  *    requestBody:
  *    responses:
