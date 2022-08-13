@@ -23,35 +23,31 @@ const editPost = async (req,res) => {
     const {title,body,image} = req.body;
     const {post_id} = req.params;
     const authUser = req.auth;
-    const user_id = authUser.id
-    console.log(authUser.id)
     const post = {
         title,
         body,
         image,
         post_id,
-        user_id
+        authUser
     };
     try {
-      const checkPost = await postService.getOne(post_id);
-    
-    //   if(checkPost.user_id == authUser.id){
-        const editPost = await postService.editPost(post);
-        return res.send(editPost);
-    //     res.send("Update Success");  
-    //   }else{
-    //     res.send("Failed Authorization"); 
-    //   }
      
+        const editPost = await postService.editPost(post);
+        res.send(editPost);  
+
     } catch (error) {
         res.json(error)
     }
 };
 
 const getAll = async (req,res) => {
-    const { q } = req.query;
+    const {writer,title,limit,order} = req.query;
+    const tempQuery = {
+        writer,title,limit,order
+    }
+    console.log(tempQuery)
     try {
-        const posts = await postService.getAll(q);
+        const posts = await postService.getAll(tempQuery);
         res.json(posts);
     } catch (error) {
         res.json(error)
@@ -69,6 +65,8 @@ const getOne = async (req,res) => {
     }
     
 }
+
+
 
 const postController = {
     createPost,

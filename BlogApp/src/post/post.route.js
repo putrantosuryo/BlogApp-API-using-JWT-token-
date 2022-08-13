@@ -1,18 +1,209 @@
 const express = require('express');
+const { postValidation } = require('../middleware/post.validation');
 const tokenVerification = require('../middleware/token.verification');
+const { validate } = require('../middleware/validation');
 const postController = require('./post.controller');
 const postRouter = express.Router();
 
 //Create Post
-postRouter.post("/blogApp.com/createPost",tokenVerification,postController.createPost);
+/**
+ * @swagger
+ * /blogApp.com/createPost:
+ *  post:
+ *    tags:
+ *      - post
+ *    security:
+ *      - bearerAuth : []
+ *    summary: API to create post with for each user
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              title:
+ *                type: string
+ *                example: judulInput
+ *              body:
+ *                type: string
+ *                example: bodyInput
+ *              image:
+ *                type: string
+ *                example: imageInput
+ *    responses:
+ *      '200':
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                id:
+ *                  type: integer
+ *                title:
+ *                  type: string
+ *                body:
+ *                  type: string
+ *                image:
+ *                  type: string
+ *                user_id:
+ *                  type: integer
+ *                updatedAt:
+ *                  type: string
+ *                createdAt:
+ *                  type: string
+ */
+postRouter.post("/blogApp.com/createPost",postValidation,validate,tokenVerification,postController.createPost);
 
 //Edit Post
-postRouter.put("/blogApp.com/editPost/:post_id",tokenVerification,postController.editPost);
+/**
+ * @swagger
+ * /blogApp.com/editPost/{post_id}:
+ *  put:
+ *    tags:
+ *      - post
+ *    security:
+ *      - bearerAuth : []
+ *    summary: API to edit post for each user
+ *    parameters:
+ *      - in: path
+ *        name: post_id
+ *        required: true
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              title:
+ *                type: string
+ *                example: judulEdit
+ *              body:
+ *                type: string
+ *                example: bodyEdit
+ *              image:
+ *                type: string
+ *                example: imageEdit
+ *    responses:
+ *      '200':
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                id:
+ *                  type: integer
+ *                title:
+ *                  type: string
+ *                body:
+ *                  type: string
+ *                image:
+ *                  type: string
+ *                user_id:
+ *                  type: integer
+ *                updatedAt:
+ *                  type: string
+ *                createdAt:
+ *                  type: string
+ */
+postRouter.put("/blogApp.com/editPost/:post_id",postValidation,validate,tokenVerification,postController.editPost);
 
-//get All 
-postRouter.get("/blogApp.com",postController.getAll);
+//get All post
+/**
+ * @swagger
+ * /blogApp.com/post:
+ *  get:
+ *    tags:
+ *      - post
+ *    summary: API to get all post item
+ *    parameters:
+ *      - in: query
+ *        name: limit
+ *        required: false
+ *        schema:
+ *          type: integer
+ *        description : number for pagination
+ *      - in: query
+ *        name: writer
+ *        required: false
+ *        schema:
+ *          type: integer
+ *        description : to get spesific post with user id
+ *      - in: query
+ *        name: title
+ *        required: false
+ *        schema:
+ *          type: string
+ *        description : to get spesific post with title
+ *      - in: query
+ *        name: limit
+ *        required: false
+ *        schema:
+ *          type: integer
+ *        description : number for pagination
+ *    description: API to get all post item
+ *    requestBody:
+ *    responses:
+ *      '200':
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                id:
+ *                  type: integer
+ *                title:
+ *                  type: string
+ *                image:
+ *                  type: string
+ *                body:
+ *                  type: string
+ *                user_id:
+ *                  type: string
+ *                updatedAt:
+ *                  type: string
+ *                createdAt:
+ *                  type: string
+ */ 
+postRouter.get("/blogApp.com/post",postController.getAll);
 
-//get One
-postRouter.get("/blogApp.com/:post_id",postController.getOne);
+//Get post detail
+/**
+ * @swagger
+ * /blogApp.com/post/{post_id}:
+ *  get:
+ *    tags:
+ *      - post
+ *    summary: API to get detail post with post id
+ *    description: API to get detail post with post id
+ *    parameters:
+ *      - in: path
+ *        name: post_id
+ *        required: true
+ *    requestBody:
+ *    responses:
+ *      '200':
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                id:
+ *                  type: integer
+ *                title:
+ *                  type: string
+ *                image:
+ *                  type: string
+ *                body:
+ *                  type: string
+ *                user_id:
+ *                  type: string
+ *                updatedAt:
+ *                  type: string
+ *                createdAt:
+ *                  type: string
+ */ 
+postRouter.get("/blogApp.com/post/:post_id",postController.getOne);
 
 module.exports = postRouter;
