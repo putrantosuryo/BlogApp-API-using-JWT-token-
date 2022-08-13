@@ -16,6 +16,7 @@ How to use
 5. npm install
 6. npx sequelize-cli db:migrate
 7. npm run dev
+8. http://localhost:8001/api-docs/  to open swagger doc.
 
 Note
 1. use localhost:8001/blogApp.com/login to get JWT Token.

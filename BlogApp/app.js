@@ -11,7 +11,7 @@ const port = 8001
 
 app.use(express.json());
 
-//http://localhost:8001/api-docs/
+
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.get('/CekToken' ,tokenVerification,(req , res)=>{
