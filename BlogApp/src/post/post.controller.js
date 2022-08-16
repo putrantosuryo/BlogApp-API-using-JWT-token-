@@ -41,9 +41,9 @@ const editPost = async (req,res) => {
 };
 
 const getAll = async (req,res) => {
-    const {writer,title,limit,order} = req.query;
+    const {writer,title,limit,page,order} = req.query;
     const tempQuery = {
-        writer,title,limit,order
+        writer,title,limit,order,page
     }
     console.log(tempQuery)
     try {

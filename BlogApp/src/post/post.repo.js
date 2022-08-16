@@ -1,5 +1,6 @@
 const { Post } = require("../database/models");
-const { Op, or } = require("sequelize");
+const { Op } = require("sequelize");
+const { CountObjects } = require("count-objects");
 
 //Create
 const createPost = async ({ title, body, image, user_id }) => {
@@ -31,7 +32,10 @@ const editPost = async ({ title, body, image, post_id }) => {
 //FindAll
 const getAll = async (tempQuery) => {
   let order = "ASC";
-  let limit = 100;
+  let limit = 0;
+  let page = 0;
+  let data = [{}];
+  let isPaginate = false;
   if (tempQuery.order !== undefined) {
     order = tempQuery.order;
   }
@@ -40,33 +44,70 @@ const getAll = async (tempQuery) => {
     limit = tempQuery.limit;
   }
 
+  if (tempQuery.page !== undefined) {
+    page = tempQuery.page;
+  }
+
+  if(tempQuery.limit !== undefined && tempQuery.page !== undefined){
+    isPaginate = true;
+  }
+
   if (tempQuery.writer !== undefined) {
     if (tempQuery.title !== undefined) {
-      return await Post.findAll({
-        where: {
-          [Op.and]: [
-            { user_id: tempQuery.writer },
-            {
-              title: {
-                [Op.substring]: tempQuery.title,
+      if (isPaginate) {
+        data = await Post.findAll({
+          where: {
+            [Op.and]: [
+              { user_id: tempQuery.writer },
+              {
+                title: {
+                  [Op.substring]: tempQuery.title,
+                },
               },
-            },
-          ],
-        },
-        order: [["title", order]],
-        limit: limit,
-      });
+            ],
+          },
+          order: [["title", order]],
+          limit: limit,
+          offset: (page - 1) * limit,
+        });
+      } else {
+        data = await Post.findAll({
+          where: {
+            [Op.and]: [
+              { user_id: tempQuery.writer },
+              {
+                title: {
+                  [Op.substring]: tempQuery.title,
+                },
+              },
+            ],
+          },
+          order: [["title", order]],
+        });
+      }
     } else {
-      return await Post.findAll({
-        where: {
-          user_id: tempQuery.writer,
-        },
-        order: [["title", order]],
-        limit: limit,
-      });
+      if (isPaginate) {
+        data = await Post.findAll({
+          where: {
+            user_id: tempQuery.writer,
+          },
+          order: [["title", order]],
+          limit: limit,
+          offset: (page - 1) * limit,
+        });
+      } else {
+        data = await Post.findAll({
+          where: {
+            user_id: tempQuery.writer,
+          },
+          order: [["title", order]],
+        });
+      }
     }
-  } else if (tempQuery.title !== undefined) {
-    return await Post.findAll({
+  } else if (
+    tempQuery.title !== undefined && isPaginate
+  ) {
+    data = await Post.findAll({
       where: {
         title: {
           [Op.substring]: tempQuery.title,
@@ -74,10 +115,28 @@ const getAll = async (tempQuery) => {
       },
       order: [["title", order]],
       limit: limit,
+      offset: (page - 1) * limit,
+    });
+  } else if (tempQuery.title !== undefined) {
+    data = await Post.findAll({
+      where: {
+        title: {
+          [Op.substring]: tempQuery.title,
+        },
+      },
+      order: [["title", order]],
+    });
+  } else if (isPaginate) {
+    data = await Post.findAll({
+      order: [["title", order]],
+      limit: limit,
+      offset: (page - 1) * limit,
     });
   } else {
-    return await Post.findAll({ order: [["title", order]], limit: limit });
+    data = await Post.findAll({ order: [["title", order]] });
   }
+
+  return data;
 };
 
 //Find One

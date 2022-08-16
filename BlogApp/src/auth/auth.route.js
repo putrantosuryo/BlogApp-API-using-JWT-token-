@@ -34,9 +34,15 @@ const { validate } = require("../middleware/validation");
  *            schema:
  *              type: object
  *              properties:
+ *                status:
+ *                  type: string
+ *                  example: login berhasil
  *                accessToken:
  *                  type: string
- *                  example: aiuwhrp2h3p48uy24184auewfpa8y34pr8ujrp8u2394p812ejuapwf823r89q23y[293u4[23u4ihr9283y4q02783ywfjaidhjfoaw]]
+ *                  example: aiuwhrp2h3p48uy24184auewfpa8y34pr8ujrp8u2394p812ejuapwf823r89q23y[293u4[23u4ihr9283y4q02783ywfjaidhjfoaw
+ *                username:
+ *                  type: string
+ *                  example: usernamesuryo
  *      '400':
  *        description: Login gagal
  */

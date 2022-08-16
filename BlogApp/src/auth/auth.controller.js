@@ -18,7 +18,7 @@ const loginUser = async (req,res) => {
         );
         res.json({"status" : 'login berhasil',accessToken: token, username : user.username});
     }else{
-        res.send("Login Gagal");
+        res.status(400).send("Login Gagal");
     }
 };
 

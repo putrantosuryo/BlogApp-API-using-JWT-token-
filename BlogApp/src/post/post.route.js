@@ -87,25 +87,7 @@ postRouter.post("/blogApp.com/createPost",postValidation,validate,tokenVerificat
  *                example: imageEdit
  *    responses:
  *      '200':
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                id:
- *                  type: integer
- *                title:
- *                  type: string
- *                body:
- *                  type: string
- *                image:
- *                  type: string
- *                user_id:
- *                  type: integer
- *                updatedAt:
- *                  type: string
- *                createdAt:
- *                  type: string
+ *        description: Update Success 
  */
 postRouter.put("/blogApp.com/editPost/:post_id",postValidation,validate,tokenVerification,postController.editPost);
 
@@ -116,14 +98,20 @@ postRouter.put("/blogApp.com/editPost/:post_id",postValidation,validate,tokenVer
  *  get:
  *    tags:
  *      - post
- *    summary: API to get all post item
+ *    summary: API to get all post item (Pagination require limit and page)
  *    parameters:
  *      - in: query
  *        name: limit
  *        required: false
  *        schema:
  *          type: integer
- *        description : number for pagination
+ *        description : how many data that show in one page
+ *      - in: query
+ *        name: page
+ *        required: false
+ *        schema:
+ *          type: integer
+ *        description : which page we wanna see
  *      - in: query
  *        name: writer
  *        required: false

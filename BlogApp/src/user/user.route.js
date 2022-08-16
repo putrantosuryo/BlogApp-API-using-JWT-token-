@@ -30,6 +30,7 @@ const userRouter = express.Router();
  *                type: string
  *                example: Password@123!
  *    responses:
+ *
  *      '200':
  *        content:
  *          application/json:
@@ -83,7 +84,7 @@ userRouter.post("/blogApp.com/register",userValidation,validate,userController.r
  *                example: Password@123!
  *    responses:
  *      '200':
- *        description: Edit data sukses
+ *        description: Update Success / Username Already Exist!
  */ 
 userRouter.put("/blogApp.com/user/:user_id",userValidation,validate,tokenVerification,userController.editUser);
 
