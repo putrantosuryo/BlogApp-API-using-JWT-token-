@@ -194,4 +194,10 @@ postRouter.get("/blogApp.com/post",postController.getAll);
  */ 
 postRouter.get("/blogApp.com/post/:post_id",postController.getOne);
 
+// postRouter.get(
+//     "/blogApp.com/post",
+//     corsValidate,
+//     postController.getAll
+//   );
+
 module.exports = postRouter;

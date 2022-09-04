@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt")
 
 const registerUser = async (fullname,username,password) => {
     const checkUsername = await userRepo.existUser(username);
-    console.log(checkUsername)
     if(checkUsername == "" || checkUsername == null){
         const hashPassword = await bcrypt.hash(password, 10);
         return await userRepo.registerUser(fullname,username,hashPassword);

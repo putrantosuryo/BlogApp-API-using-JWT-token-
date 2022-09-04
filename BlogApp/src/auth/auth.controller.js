@@ -16,7 +16,7 @@ const loginUser = async (req,res) => {
         process.env.JWT_SECRET_TOKEN,
         {expiresIn :"1d"}
         );
-        res.json({"status" : 'login berhasil',accessToken: token, username : user.username});
+        res.json({"status" : 'login berhasil',accessToken: token, username : user.username, userId: user.id});
     }else{
         res.status(400).send("Login Gagal");
     }
